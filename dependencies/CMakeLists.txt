@@ -168,8 +168,24 @@ int main() {}
   target_include_directories(yyjson SYSTEM PUBLIC "${yyjson_SOURCE_DIR}/src")
   target_compile_definitions(yyjson INTERFACE SIMDJSON_COMPETITION_YYJSON)
 
+  CPMAddPackage(
+      NAME cj
+      SOURCE_DIR ~/cj
+      DOWNLOAD_ONLY YES
+  )
+  add_library(cj STATIC
+                "${cj_SOURCE_DIR}/lib/cj_token.c"
+                "${cj_SOURCE_DIR}/lib/cj_element.c"
+                "${cj_SOURCE_DIR}/lib/cj_mempool.c"
+                "${cj_SOURCE_DIR}/lib/cj_pointer.c"
+                "${cj_SOURCE_DIR}/lib/cjson.c"
+                "${cj_SOURCE_DIR}/lib/util.c"
+        )
+  target_include_directories(cj SYSTEM PUBLIC "${cj_SOURCE_DIR}/include")
+  target_compile_definitions(cj INTERFACE SIMDJSON_COMPETITION_CJ)
+
   add_library(competition-core INTERFACE)
-  target_link_libraries(competition-core INTERFACE nlohmann_json rapidjson sajson cjson jsmn yyjson)
+  target_link_libraries(competition-core INTERFACE nlohmann_json rapidjson sajson cjson jsmn yyjson cj)
 
   if(TARGET boostjson)
      target_compile_definitions(boostjson INTERFACE HAS_BOOST_JSON)

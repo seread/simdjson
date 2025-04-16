@@ -6,6 +6,16 @@ SIMDJSON_PUSH_DISABLE_ALL_WARNINGS
 #include "yyjson.h"
 #endif
 
+#ifdef SIMDJSON_COMPETITION_CJ
+#include "cj_element.h"
+#include "cj_mempool.h"
+#include "cj_pointer.h"
+#include "cj_token.h"
+#include "cj_value.h"
+#include "cjson.h"
+#include "util.h"
+#endif
+
 #ifdef SIMDJSON_COMPETITION_RAPIDJSON
 #include "rapidjson/document.h"
 #include "rapidjson/reader.h"
@@ -29,18 +39,20 @@ SIMDJSON_PUSH_DISABLE_ALL_WARNINGS
 #include <benchmark/benchmark.h>
 
 SIMDJSON_POP_DISABLE_WARNINGS
-#include "json2msgpack/simdjson_ondemand.h"
-#include "json2msgpack/simdjson_dom.h"
-#include "json2msgpack/yyjson.h"
 #include "json2msgpack/rapidjson.h"
+#include "json2msgpack/simdjson_dom.h"
+#include "json2msgpack/simdjson_ondemand.h"
+#include "json2msgpack/yyjson.h"
 #if SIMDJSON_COMPETITION_ONDEMAND_SAJSON
 #include "json2msgpack/sajson.h"
 #endif // SIMDJSON_COMPETITION_ONDEMAND_SAJSON
-#include "json2msgpack/nlohmann_json.h"
 #include "json2msgpack/boostjson.h"
+#include "json2msgpack/nlohmann_json.h"
 
-#include "partial_tweets/simdjson_ondemand.h"
+#include "json2msgpack/cj.h"
+
 #include "partial_tweets/simdjson_dom.h"
+#include "partial_tweets/simdjson_ondemand.h"
 #include "partial_tweets/yyjson.h"
 #if SIMDJSON_COMPETITION_ONDEMAND_SAJSON
 #include "partial_tweets/sajson.h"
@@ -55,11 +67,10 @@ SIMDJSON_POP_DISABLE_WARNINGS
 #endif // SIMDJSON_COMPETITION_SAX
 #include "partial_tweets/boostjson.h"
 
-
-#include "distinct_user_id/simdjson_ondemand.h"
-#include "distinct_user_id/simdjson_ondemand_json_pointer.h"
 #include "distinct_user_id/simdjson_dom.h"
 #include "distinct_user_id/simdjson_dom_json_pointer.h"
+#include "distinct_user_id/simdjson_ondemand.h"
+#include "distinct_user_id/simdjson_ondemand_json_pointer.h"
 #include "distinct_user_id/yyjson.h"
 #if SIMDJSON_COMPETITION_ONDEMAND_SAJSON
 #include "distinct_user_id/sajson.h"
@@ -74,8 +85,8 @@ SIMDJSON_POP_DISABLE_WARNINGS
 #endif // SIMDJSON_COMPETITION_SAX
 #include "distinct_user_id/boostjson.h"
 
-#include "find_tweet/simdjson_ondemand.h"
 #include "find_tweet/simdjson_dom.h"
+#include "find_tweet/simdjson_ondemand.h"
 #include "find_tweet/yyjson.h"
 #if SIMDJSON_COMPETITION_ONDEMAND_SAJSON
 #include "find_tweet/sajson.h"
@@ -90,8 +101,8 @@ SIMDJSON_POP_DISABLE_WARNINGS
 #endif // SIMDJSON_COMPETITION_SAX
 #include "find_tweet/boostjson.h"
 
-#include "top_tweet/simdjson_ondemand.h"
 #include "top_tweet/simdjson_dom.h"
+#include "top_tweet/simdjson_ondemand.h"
 #include "top_tweet/yyjson.h"
 #if SIMDJSON_COMPETITION_ONDEMAND_SAJSON
 #include "top_tweet/sajson.h"
@@ -106,9 +117,8 @@ SIMDJSON_POP_DISABLE_WARNINGS
 #endif // SIMDJSON_COMPETITION_SAX
 #include "top_tweet/boostjson.h"
 
-
-#include "kostya/simdjson_ondemand.h"
 #include "kostya/simdjson_dom.h"
+#include "kostya/simdjson_ondemand.h"
 #include "kostya/yyjson.h"
 #if SIMDJSON_COMPETITION_ONDEMAND_SAJSON
 #include "kostya/sajson.h"
