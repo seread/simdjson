@@ -11,9 +11,9 @@ SIMDJSON_PUSH_DISABLE_ALL_WARNINGS
 #include "cj_mempool.h"
 #include "cj_pointer.h"
 #include "cj_token.h"
+#include "cj_util.h"
 #include "cj_value.h"
 #include "cjson.h"
-#include "util.h"
 #endif
 
 #ifdef SIMDJSON_COMPETITION_RAPIDJSON

@@ -50,7 +50,7 @@ void cj2msgpack::write_uint32(const uint32_t w) noexcept {
 
 void cj2msgpack::recursive_processor(JSON_ELEMENT *obj) {
   JSON_ELEMENT *curr = obj;
-  while (curr) {
+  if (curr) {
     switch (curr->type) {
     case JET_STRING: {
       const J_STRING *str_p = (const J_STRING *)curr->data;
@@ -101,8 +101,6 @@ void cj2msgpack::recursive_processor(JSON_ELEMENT *obj) {
     default:
       SIMDJSON_UNREACHABLE();
     }
-
-    curr = curr->next;
   }
 }
 

@@ -179,7 +179,7 @@ int main() {}
                 "${cj_SOURCE_DIR}/lib/cj_mempool.c"
                 "${cj_SOURCE_DIR}/lib/cj_pointer.c"
                 "${cj_SOURCE_DIR}/lib/cjson.c"
-                "${cj_SOURCE_DIR}/lib/util.c"
+                "${cj_SOURCE_DIR}/lib/cj_util.c"
         )
   target_include_directories(cj SYSTEM PUBLIC "${cj_SOURCE_DIR}/include")
   target_compile_definitions(cj INTERFACE SIMDJSON_COMPETITION_CJ)
