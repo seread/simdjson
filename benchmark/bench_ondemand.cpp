@@ -120,6 +120,7 @@ SIMDJSON_POP_DISABLE_WARNINGS
 #include "kostya/simdjson_dom.h"
 #include "kostya/simdjson_ondemand.h"
 #include "kostya/yyjson.h"
+#include "kostya/cj.h"
 #if SIMDJSON_COMPETITION_ONDEMAND_SAJSON
 #include "kostya/sajson.h"
 #endif // SIMDJSON_COMPETITION_ONDEMAND_SAJSON

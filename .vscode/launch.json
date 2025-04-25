@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/benchmark/bench_ondemand",
             "args": [
-                "--benchmark_filter=cj",
+                "--benchmark_filter=kostya",
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
