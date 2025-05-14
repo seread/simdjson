@@ -53,14 +53,17 @@ void cj2msgpack::recursive_processor(JSON_ELEMENT *obj) {
   if (curr) {
     switch (curr->type) {
     case JET_STRING: {
-      const J_STRING *str_p = (const J_STRING *)curr->data;
+      const J_STRING *str_p = (const J_STRING *)curr->data.str_value;
       const char *str = (char *)str_p->value;
       write_string(str, str_p->size);
     } break;
     case JET_ARRAY: {
       write_byte(0xdf);
-      write_uint32(uint32_t(curr->sub_size));
-      JSON_ELEMENT *sub_ele = curr->sub_begin;
+      uint32_t size =
+          curr->data.sub_value ? uint32_t(curr->data.sub_value->size) : 0;
+      write_uint32(size);
+      JSON_ELEMENT *sub_ele =
+          curr->data.sub_value ? curr->data.sub_value->sub_begin : nullptr;
       while (sub_ele) {
         if (sub_ele)
           recursive_processor(sub_ele);
@@ -69,9 +72,9 @@ void cj2msgpack::recursive_processor(JSON_ELEMENT *obj) {
     } break;
     case JET_OBJ: {
       write_byte(0xdd);
-      write_uint32(uint32_t(curr->sub_size));
+      write_uint32(uint32_t(curr->data.sub_value->size));
 
-      JSON_ELEMENT *sub_ele = curr->sub_begin;
+      JSON_ELEMENT *sub_ele = curr->data.sub_value->sub_begin;
       while (sub_ele) {
         const char *sub_key = (const char *)sub_ele->key;
         if (sub_key)
@@ -83,20 +86,17 @@ void cj2msgpack::recursive_processor(JSON_ELEMENT *obj) {
       }
     } break;
     case JET_BOOL: {
-      const J_BOOL *bool_p = (const J_BOOL *)curr->data;
-      write_byte(0xc2 + bool_p->value);
+      write_byte(0xc2 + curr->data.bool_value);
     } break;
     case JET_NULL:
       write_byte(0xc0);
       break;
     case JET_INT: {
-      const J_INT *int_p = (const J_INT *)curr->data;
-      double iv = double(int_p->value);
+      double iv = double(curr->data.int_value);
       write_double(iv);
     } break;
     case JET_DOUBLE: {
-      const J_DOUBLE *int_p = (const J_DOUBLE *)curr->data;
-      write_double(int_p->value);
+      write_double(curr->data.double_value);
     } break;
     default:
       SIMDJSON_UNREACHABLE();

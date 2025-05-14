@@ -9,16 +9,16 @@ namespace kostya {
 struct cj_base {
   static constexpr diff_flags DiffFlags = diff_flags::NONE;
 
-  simdjson_inline double get_double(JSON_ELEMENT *object, const char* key) {
+  simdjson_inline double get_double(JSON_ELEMENT *object, const char *key) {
     JSON_ELEMENT *field = get_by_pointer(object, key);
 
     if (field == NULL) {
       throw "Missing double field";
     }
     if (field->type == JET_DOUBLE) {
-      return ((J_DOUBLE *)(field->data))->value;
+      return field->data.double_value;
     } else if (field->type == JET_INT) {
-      return ((J_INT *)(field->data))->value;
+      return field->data.int_value;
     } else {
       throw "Field is not double";
     }
@@ -39,14 +39,13 @@ struct cj_base {
       return false;
     }
 
-    JSON_ELEMENT *sub = coords->sub_begin;
+    JSON_ELEMENT *sub = coords->data.sub_value->sub_begin;
     while (sub) {
       if (sub->type != JET_OBJ) {
         return false;
       }
-      result.emplace_back(json_benchmark::point{get_double(sub, "/x"),
-                                                get_double(sub, "/y"),
-                                                get_double(sub, "/z")});
+      result.emplace_back(json_benchmark::point{
+          get_double(sub, "/x"), get_double(sub, "/y"), get_double(sub, "/z")});
       sub = sub->next;
     }
 
@@ -62,6 +61,6 @@ struct cj : cj_base {
 };
 BENCHMARK_TEMPLATE(kostya, cj)->UseManualTime();
 
-}  // namespace kostya
+} // namespace kostya
 
-#endif  // SIMDJSON_COMPETITION_CJ
+#endif // SIMDJSON_COMPETITION_CJ
